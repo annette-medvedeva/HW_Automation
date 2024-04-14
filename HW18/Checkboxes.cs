@@ -17,12 +17,12 @@ namespace HW18
             driver.Navigate().GoToUrl("http://the-internet.herokuapp.com/checkboxes");
             IWebElement checkFirstCheckbox = driver.FindElement(By.XPath("//input[@type='checkbox'][1]"));
             IWebElement checkSecondCheckbox = driver.FindElement(By.XPath("//input[@type='checkbox'][2]"));
-            checkFirstCheckbox.Click(); Thread.Sleep(3000);
+            checkFirstCheckbox.Click(); 
             checkSecondCheckbox.Click();
             Assert.IsTrue(checkFirstCheckbox.Selected);
             Assert.IsFalse(checkSecondCheckbox.Selected);
-            checkFirstCheckbox.Click(); Thread.Sleep(2000);
-            checkSecondCheckbox.Click(); Thread.Sleep(2000);
+            checkFirstCheckbox.Click(); 
+            checkSecondCheckbox.Click(); 
             Assert.IsFalse(checkFirstCheckbox.Selected);
             Assert.IsTrue(checkSecondCheckbox.Selected);
         }
