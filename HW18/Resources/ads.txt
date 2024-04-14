@@ -1,0 +1,5 @@
+#Ads.txt com.test.app
+wls-demo-ssp.teqblaze.io, 1, RESELLER
+www.youtube.com, 4344, BOTH, DSP-20-K3KnHwdNfzgUmgp
+ssp.com, 4564, DIRECT, 134263784
+test.mail.com, 1234567, DIRECT, 123123123123123
