@@ -24,7 +24,6 @@ namespace HW18.Pages
             var javaScriptExecutor = (IJavaScriptExecutor)Driver;
             var checkboxes = Driver.FindElements(By.CssSelector("[type='checkbox']"));
             javaScriptExecutor.ExecuteScript("arguments[0].click();", checkboxes[0]);
-
             javaScriptExecutor.ExecuteScript("arguments[0].click();", checkboxes[0]);
         }
 

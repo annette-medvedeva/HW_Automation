@@ -23,16 +23,20 @@ namespace HW18.Test
         public IWebDriver Driver { get; set; }
         public LoginPage LoginPage { get; set; }
         public ProductsPage ProductsPage { get; set; }
+        public CartPage CartPage { get; set; }
         public WaitsHelper? WaitsHelper { get; set; }
+        public  CheckoutPage CheckoutPage { get; set; }
         public Actions Actions { get; set; }
         public IJavaScriptExecutor Js { get; set; }
+
+
 
         private AllureLifecycle allure;
 
         [OneTimeSetUp]
         public void OneTimeSetUp() 
         { 
-            allure = AllureLifecycle.Instance;  
+            AllureLifecycle.Instance.CleanupResultDirectory();
         }
 
         [SetUp]
@@ -41,6 +45,8 @@ namespace HW18.Test
             Driver = new Browser().Driver;
             LoginPage = new LoginPage(Driver);
             ProductsPage = new ProductsPage(Driver);
+            CartPage = new CartPage(Driver);
+            CheckoutPage = new CheckoutPage(Driver);
             WaitsHelper = new WaitsHelper(Driver, TimeSpan.FromSeconds(Configurator.ReadConfiguration().TimeOut));
             Actions = new Actions(Driver);
             Js = (IJavaScriptExecutor)Driver;
@@ -53,20 +59,18 @@ namespace HW18.Test
             Driver.Dispose();
         }
 
-        //[OneTimeTearDown]
-        //public void OneTimeTearDown()
-        //{
-        //    if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Failed)
-        //    {
-        //    Screenshot screenshot = ((ITakesScreenshot)Browser.Instance.Driver).GetScreenshot();
-        //        byte[] bytes = screenshot.AsByteArray;
-        //        allure.AddAttachment("Screenshot", "image/png", bytes);
-        //    }
-        //    Browser.Instance.CloseBrowser();
-
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Failed)
+            {
+                Screenshot screenshot = ((ITakesScreenshot)Driver).GetScreenshot();
+                byte[] bytes = screenshot.AsByteArray;
+                AllureApi.AddAttachment("Screenshot", "image/png", bytes);
+            }
             
-        //}
+        }
 
-        
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using HW18.Utils;
+﻿using HW18.Pages;
+using HW18.Utils;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace HW18.Test
 {
     public class AddProductTo_CartTests : BaseTest
     {
+
         [SetUp]
         public void Setup()
         {
@@ -22,11 +24,8 @@ namespace HW18.Test
             LoginPage.SuccessfulLogin(Configurator.ReadConfiguration().UserNameSauceDemo,
             Configurator.ReadConfiguration().PasswordSauceDemo);
             ProductsPage.OpenPageByUrl();
-            IWebElement addToCartButton = Driver.FindElement(By.Id("add-to-cart-sauce-labs-backpack"));
-            addToCartButton.Click();
-            IWebElement cartNumber = Driver.FindElement(By.XPath("//span[@data-test='shopping-cart-badge']"));
-            string cartNumberText = cartNumber.Text;
-            Assert.AreEqual("1", cartNumberText);
+            var cartCount = CartPage.CartNumberSingle();
+            Assert.AreEqual("1", cartCount);
         }
 
         [Test]
@@ -35,15 +34,8 @@ namespace HW18.Test
             LoginPage.SuccessfulLogin(Configurator.ReadConfiguration().UserNameSauceDemo,
             Configurator.ReadConfiguration().PasswordSauceDemo);
             ProductsPage.OpenPageByUrl();
-            IWebElement addFirstProductToCartButton = Driver.FindElement(By.Id("add-to-cart-sauce-labs-backpack"));
-            addFirstProductToCartButton.Click();
-            IWebElement addSecondProductToCartButton = Driver.FindElement(By.XPath("//button[@data-test='add-to-cart-sauce-labs-bike-light']"));
-            addSecondProductToCartButton.Click();
-            IWebElement addThirdProductToCartButton = Driver.FindElement(By.XPath("(//div[@class='inventory_item_price']/following-sibling::button)[3]"));
-            addThirdProductToCartButton.Click();
-            IWebElement cartNumber = Driver.FindElement(By.XPath("//span[@data-test='shopping-cart-badge']"));
-            string cartNumberText = cartNumber.Text;
-            Assert.AreEqual("3", cartNumberText);
+            var cartCount = CartPage.CartNumberMultiple();
+            Assert.AreEqual("3", cartCount);
         }
 
         [Test]
@@ -52,20 +44,14 @@ namespace HW18.Test
             LoginPage.SuccessfulLogin(Configurator.ReadConfiguration().UserNameSauceDemo,
             Configurator.ReadConfiguration().PasswordSauceDemo);
             ProductsPage.OpenPageByUrl();
-            IWebElement addToCartButton = Driver.FindElement(By.Id("add-to-cart-sauce-labs-backpack"));
-            addToCartButton.Click();
-            string inventoryTitleText= Driver.FindElement(By.XPath("//div[text()='Sauce Labs Backpack']")).Text;
-            string inventoryPriceText = Driver.FindElement(By.XPath("//div[@class='pricebar']//div[text()='29.99']")).Text;
-;            IWebElement cartNumber = Driver.FindElement(By.XPath("//span[@data-test='shopping-cart-badge']"));
-            cartNumber.Click();
+            var (inventoryTitleText, inventoryPriceText) = CartPage.AddProductToCart();
 
             Assert.Multiple(() =>
             {
                 Assert.That(inventoryTitleText, Is.EqualTo("Sauce Labs Backpack"));
                 Assert.That(inventoryPriceText, Is.EqualTo(Driver.FindElement(By.XPath("//div[text()='29.99']")).Text));
             });
-            
-
         }
+
     }
 }
