@@ -1,4 +1,5 @@
-﻿using HW18.Utils;
+﻿using Allure.NUnit.Attributes;
+using HW18.Utils;
 using HW18.Waits;
 using OpenQA.Selenium;
 using System;
@@ -11,7 +12,6 @@ namespace HW18.Pages
 {
     public class CheckoutPage : BasePage
     {
-
         private readonly By productToAddId = By.Id("add-to-cart-sauce-labs-backpack");
         private readonly By checkoutButtonXPath = By.XPath("//button[@data-test='checkout']");
         private readonly By checkoutIconXPath = By.XPath("//div[@id='shopping_cart_container']/a");
@@ -38,7 +38,7 @@ namespace HW18.Pages
         {
             throw new NotImplementedException();
         }
-
+        [AllureStep]
         public void AddProductToCart()
         {
             IWebElement addToCartButton = Driver.FindElement(productToAddId);
@@ -46,13 +46,13 @@ namespace HW18.Pages
             IWebElement checkoutIcon = Driver.FindElement(checkoutIconXPath);
             checkoutIcon.Click();
         }
-
+        [AllureStep]
         public void ProceedToCheckout()
         {
             var checkoutButton = Driver.FindElement(checkoutButtonXPath);
             checkoutButton.Click();
         }
-
+        [AllureStep]
         public void FillCheckoutForm()
         {
             Driver.FindElement(firstNameXPath).SendKeys("test First Name");
@@ -60,7 +60,7 @@ namespace HW18.Pages
             Driver.FindElement(postalCodeXPath).SendKeys("456778");
             Driver.FindElement(submitButtonXPath).Click();
         }
-
+        [AllureStep]
         public void AssertCheckoutDetails()
         {
             string inventoryTitleText = Driver.FindElement(inventoryTitleXPath).Text;
@@ -77,14 +77,14 @@ namespace HW18.Pages
                 Assert.That(Driver.FindElement(checkoutCompleteMessageXPath).Text, Is.EqualTo("Checkout: Complete!"));
             });
         }
-
+        [AllureStep]
         public void ProceedWithoutFillingCheckoutForm()
         {
             var waitsHelper = new WaitsHelper(Driver, TimeSpan.FromSeconds(10));
             var continueButton = waitsHelper.WaitForVisibility(continueButtonXPath);
             continueButton.Click();
         }
-
+        [AllureStep]
         public void AssertCheckoutErrors()
         {
             Assert.Multiple(() =>

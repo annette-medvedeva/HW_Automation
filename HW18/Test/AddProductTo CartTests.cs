@@ -1,23 +1,28 @@
-﻿using HW18.Pages;
+﻿
+using Allure.Net.Commons;
+using Allure.NUnit.Attributes;
+using HW18.Pages;
 using HW18.Utils;
 using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace HW18.Test
 {
+    [AllureParentSuite("Cart tests")]
     public class AddProductTo_CartTests : BaseTest
     {
-
         [SetUp]
         public void Setup()
         {
             Driver.Navigate().GoToUrl(Configurator.ReadConfiguration().SauceDemoUrl);
         }
 
+        [AllureEpic("Web")]
+        [AllureFeature("Cart")]
+        [AllureStory("Frontend fix")]
+        [AllureSeverity(SeverityLevel.critical)]
+        [AllureDescription("Check Counter of the Cart")]
+        [AllureOwner("AMedvedeva")]
         [Test]
         public void AddOneProductToCart_CartCount()
         {
@@ -28,6 +33,12 @@ namespace HW18.Test
             Assert.AreEqual("1", cartCount);
         }
 
+        [AllureStep("Login and Open Products Page")]
+        [AllureFeature("Cart")]
+        [AllureStory("Frontend fix")]
+        [AllureSeverity(SeverityLevel.critical)]
+        [AllureOwner("AMedvedeva")]
+        [AllureDescription("Check Miltiple Counter of the Cart")]
         [Test]
         public void AddSeveralProductsToCart_CartCount()
         {
@@ -38,6 +49,14 @@ namespace HW18.Test
             Assert.AreEqual("3", cartCount);
         }
 
+
+
+        [AllureStep("Login and Add Products To Cart")]
+        [AllureFeature("Cart")]
+        [AllureStory("Frontend fix")]
+        [AllureSeverity(SeverityLevel.critical)]
+        [AllureOwner("AMedvedeva")]
+        [AllureDescription("Check Miltiple Counter of the Cart")]
         [Test]
         public void AddOneProduct_ToCart()
         {

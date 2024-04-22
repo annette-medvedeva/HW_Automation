@@ -1,5 +1,7 @@
-﻿using Allure.Net.Commons;
+﻿
+using Allure.Net.Commons;
 using Allure.NUnit;
+using Allure.NUnit.Attributes;
 using HW18.Core;
 using HW18.Pages;
 using HW18.Utils;
@@ -7,16 +9,13 @@ using HW18.Waits;
 using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace HW18.Test
 {
     [TestFixture]
     [Parallelizable(ParallelScope.Fixtures)]
+  
     [AllureNUnit]
     public class BaseTest
     {
@@ -30,15 +29,14 @@ namespace HW18.Test
         public IJavaScriptExecutor Js { get; set; }
 
 
-
-        private AllureLifecycle allure;
-
+        [AllureBefore("Clean up allure-results directory")]
         [OneTimeSetUp]
         public void OneTimeSetUp() 
         { 
             AllureLifecycle.Instance.CleanupResultDirectory();
         }
 
+        [AllureBefore("Set up driver")]
         [SetUp]
         public void Setup()
         {
@@ -51,24 +49,33 @@ namespace HW18.Test
             Actions = new Actions(Driver);
             Js = (IJavaScriptExecutor)Driver;
         }
+        
 
+        [AllureAfter("Driver quite")]
         [TearDown]
         public void TearDown()
         {
-
-            Driver.Dispose();
-        }
-
-        [OneTimeTearDown]
-        public void OneTimeTearDown()
-        {
+            var allure = AllureLifecycle.Instance;
             if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Failed)
             {
-                Screenshot screenshot = ((ITakesScreenshot)Driver).GetScreenshot();
-                byte[] bytes = screenshot.AsByteArray;
-                AllureApi.AddAttachment("Screenshot", "image/png", bytes);
+                var screenshot = ((ITakesScreenshot)Driver).GetScreenshot();
+                var screenshotByte = screenshot.AsByteArray;
+                AllureApi.AddAttachment("Screenshot", "image/png", screenshotByte);
             }
-            
+
+            try
+            {
+                var loggerPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                    "fileLogger.txt");
+                AllureApi.AddAttachment("logger", "text/html", loggerPath);
+            }
+            catch
+            {
+                Console.WriteLine("couldnt load file");
+            }
+            Driver.Dispose();
+            Driver.Quit();
+
         }
 
 

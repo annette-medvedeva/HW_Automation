@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Allure.NUnit.Attributes;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,7 @@ namespace HW18.Pages
         public IWebElement LoginButton() => Driver.FindElement(LoginButtonBy);
         public IWebElement ErrorTitle() => Driver.FindElement(ErrorTitleBy);
 
+        [AllureStep]
         public ProductsPage SuccessfulLogin(string userName, string password)
         {
             UserNameField().SendKeys(userName);
@@ -41,6 +43,7 @@ namespace HW18.Pages
             return new ProductsPage(Driver);
         }
 
+        [AllureStep]
         public void Login(string userName = "", string password = "")
         {
             UserNameField().SendKeys(userName);

@@ -1,7 +1,7 @@
 {
   "allure": {
     "directory": "allure-results",
-    "links": ["https://jira.com{issue}"]
+    "links": ["https://jira.com/{issue}"]
 
   }
 }

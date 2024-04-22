@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Allure.NUnit.Attributes;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace HW18.Pages
         {
             Driver = driver;
         }
-
+        [AllureStep]
         public string CartNumberMultiple()
         {
             IWebElement addFirstProductToCartButton = Driver.FindElement(firstProduct);
@@ -34,7 +35,7 @@ namespace HW18.Pages
             IWebElement cartNumber = Driver.FindElement(counter);
             return cartNumber.Text;
         }
-
+        [AllureStep]
         public string CartNumberSingle()
         {
             IWebElement addToCartButton = Driver.FindElement(addButton);
@@ -43,7 +44,7 @@ namespace HW18.Pages
             string cartNumberText = cartNumber.Text;
             return cartNumberText;
         }
-
+        [AllureStep]
         public (string title, string price) AddProductToCart()
         {
             IWebElement addToCartButton = Driver.FindElement(firstProduct);
