@@ -9,6 +9,8 @@ using OpenQA.Selenium;
 namespace HW18.Test
 {
     [AllureParentSuite("Cart tests")]
+    [AllureEpic("Web")]
+    [AllureFeature("Cart")]
     public class AddProductTo_CartTests : BaseTest
     {
         [SetUp]
@@ -17,8 +19,7 @@ namespace HW18.Test
             Driver.Navigate().GoToUrl(Configurator.ReadConfiguration().SauceDemoUrl);
         }
 
-        [AllureEpic("Web")]
-        [AllureFeature("Cart")]
+        
         [AllureStory("Frontend fix")]
         [AllureSeverity(SeverityLevel.critical)]
         [AllureDescription("Check Counter of the Cart")]
@@ -34,8 +35,6 @@ namespace HW18.Test
         }
 
         [AllureStep("Login and Open Products Page")]
-        [AllureFeature("Cart")]
-        [AllureStory("Frontend fix")]
         [AllureSeverity(SeverityLevel.critical)]
         [AllureOwner("AMedvedeva")]
         [AllureDescription("Check Miltiple Counter of the Cart")]
@@ -52,7 +51,6 @@ namespace HW18.Test
 
 
         [AllureStep("Login and Add Products To Cart")]
-        [AllureFeature("Cart")]
         [AllureStory("Frontend fix")]
         [AllureSeverity(SeverityLevel.critical)]
         [AllureOwner("AMedvedeva")]
