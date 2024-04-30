@@ -4,6 +4,7 @@ using Allure.NUnit;
 using Allure.NUnit.Attributes;
 using HW18.Core;
 using HW18.Pages;
+using HW18.Steps;
 using HW18.Utils;
 using HW18.Waits;
 using NUnit.Framework.Interfaces;
@@ -15,18 +16,16 @@ namespace HW18.Test
 {
     [TestFixture]
     [Parallelizable(ParallelScope.Fixtures)]
-  
     [AllureNUnit]
     public class BaseTest
     {
         public IWebDriver Driver { get; set; }
         public LoginPage LoginPage { get; set; }
-        public ProductsPage ProductsPage { get; set; }
-        public CartPage CartPage { get; set; }
         public WaitsHelper? WaitsHelper { get; set; }
-        public  CheckoutPage CheckoutPage { get; set; }
         public Actions Actions { get; set; }
         public IJavaScriptExecutor Js { get; set; }
+        public UserStep UserStep { get; set; }
+        public TestRailPage TestRailPage { get; set; }
 
 
         [AllureBefore("Clean up allure-results directory")]
@@ -42,12 +41,11 @@ namespace HW18.Test
         {
             Driver = new Browser().Driver;
             LoginPage = new LoginPage(Driver);
-            ProductsPage = new ProductsPage(Driver);
-            CartPage = new CartPage(Driver);
-            CheckoutPage = new CheckoutPage(Driver);
-            WaitsHelper = new WaitsHelper(Driver, TimeSpan.FromSeconds(Configurator.ReadConfiguration().TimeOut));
+            TestRailPage = new TestRailPage(Driver);
             Actions = new Actions(Driver);
             Js = (IJavaScriptExecutor)Driver;
+            UserStep = new UserStep(Driver);
+            WaitsHelper = new WaitsHelper(Driver);
         }
         
 

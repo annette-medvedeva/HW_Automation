@@ -1,4 +1,5 @@
 ﻿using Allure.NUnit.Attributes;
+using HW18.Element;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
@@ -8,47 +9,55 @@ using System.Threading.Tasks;
 
 namespace HW18.Pages
 {
-     public class LoginPage: BasePage
+    public class LoginPage : BasePage
     {
-        private static readonly By UserNameFieldBy = By.XPath("//input[@data-test='username']");
-        private static readonly By PasswordFieldBy = By.CssSelector("[placeholder='Password']");
-        private static readonly By LoginButtonBy = By.CssSelector(".submit-button.btn_action");
-        private static readonly By ErrorTitleBy = By.TagName("h3");
+
+        private static readonly By UserNameTestRailFieldBy = By.XPath("//input[@data-testid='loginIdName']");
+        private static readonly By PasswordTestRailFieldBy = By.XPath("//input[@data-testid='loginPasswordFormDialog']");
+        private static readonly By LoginTestRailButtonBy = By.XPath("//button[@id='button_primary']");
         private string _endPoint = "";
 
 
         public LoginPage(IWebDriver driver) : base(driver)
         {
-            Driver = driver;
         }
-
-        protected IWebDriver Driver { get; set; }
 
         public override string GetEndpoint()
         {
             return _endPoint;
         }
 
-        public IWebElement UserNameField() => Driver.FindElement(UserNameFieldBy);
-        public IWebElement PasswordField() => Driver.FindElement(PasswordFieldBy);
-        public IWebElement LoginButton() => Driver.FindElement(LoginButtonBy);
-        public IWebElement ErrorTitle() => Driver.FindElement(ErrorTitleBy);
-
-        [AllureStep]
-        public ProductsPage SuccessfulLogin(string userName, string password)
-        {
-            UserNameField().SendKeys(userName);
-            PasswordField().SendKeys(password);
-            LoginButton().Click();
-            return new ProductsPage(Driver);
-        }
-
         [AllureStep]
         public void Login(string userName = "", string password = "")
         {
-            UserNameField().SendKeys(userName);
-            PasswordField().SendKeys(password);
-            LoginButton().Click();
+            UserNameTestRailField().SendKeys(userName);
+            PasswordTestRailField().SendKeys(password);
+            LoginTestRailButton().Click();
+        }
+        protected override bool EvaluateLoadedStatus()
+        {
+            return LoginTestRailButton().Displayed;
+        }
+
+        //TestRail
+        public IWebElement UserNameTestRailField()
+        {
+            return Driver.FindElement(UserNameTestRailFieldBy);
+        }
+
+        public IWebElement PasswordTestRailField()
+        {
+            return Driver.FindElement(PasswordTestRailFieldBy);
+        }
+
+        public IWebElement LoginTestRailButton()
+        {
+            return Driver.FindElement(LoginTestRailButtonBy);
+        }
+
+        protected override void ExecuteLoad()
+        {
+            throw new NotImplementedException();
         }
     }
 }

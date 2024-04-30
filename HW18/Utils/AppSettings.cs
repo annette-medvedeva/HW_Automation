@@ -14,5 +14,8 @@ namespace HW18.Utils
         public string UserNameSauceDemo { get; set; }
         public string PasswordSauceDemo { get; set; }
         public string HerokuappUrl { get;  set; }
+        public string TestRailUrl { get; set;}
+        public string UsernameTestRail { get; set; }
+        public string PasswordTestRail { get; set; }
     }
 }

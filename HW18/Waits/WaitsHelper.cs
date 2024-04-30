@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SeleniumExtras.WaitHelpers;
+using HW18.Utils;
 
 namespace HW18.Waits
 {
@@ -15,11 +16,11 @@ namespace HW18.Waits
         private WebDriverWait wait;
         private TimeSpan timeout { get; set; }
 
-        public WaitsHelper(IWebDriver driver, TimeSpan timeout)
+        public WaitsHelper(IWebDriver driver)
         {
             this.driver = driver;
-            this.timeout = timeout;
-            wait = new WebDriverWait(driver, this.timeout);
+            timeout = TimeSpan.FromSeconds(Configurator.ReadConfiguration().TimeOut);
+            wait = new WebDriverWait(driver, timeout);
         }
 
         public IWebElement WaitForVisibility(By locator)
@@ -47,6 +48,15 @@ namespace HW18.Waits
                 throw new WebDriverTimeoutException($"Element visible after {timeout} seconds");
             }
 
+        }
+        public IWebElement WaitForExist(By locator)
+        {
+            return wait.Until(ExpectedConditions.ElementExists(locator));
+        }
+
+        public IReadOnlyCollection<IWebElement> WaitForElementsPresence(By locator)
+        {
+            return wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(locator));
         }
     }
 }
