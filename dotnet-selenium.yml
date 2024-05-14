@@ -10,8 +10,8 @@ on:
      description: 'Select test category'
      type: choice
      options:
-     - CreateProject
-     - DeleteProject
+      - Positive
+     - Negative
    required: true
   
 
