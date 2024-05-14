@@ -9,20 +9,17 @@ using System.Threading.Tasks;
 
 namespace HW18.Pages
 {
-    public abstract class BasePage: LoadableComponent<BasePage>
+    public abstract class BasePage
     {
         protected IWebDriver Driver { get; set; }
-        public BasePage(IWebDriver driver)
+
+
+        protected BasePage(IWebDriver driver, bool openPageByUrl = false)
         {
             Driver = driver;
+            
         }
 
-        public abstract string GetEndpoint();
 
-        public void OpenPageByUrl()
-        {
-            Driver.Navigate().GoToUrl(Configurator.ReadConfiguration().TestRailUrl);
-        }
-       
     }
 }

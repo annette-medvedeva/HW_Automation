@@ -21,11 +21,31 @@ namespace HW18.Pages
         public LoginPage(IWebDriver driver) : base(driver)
         {
         }
+        private static readonly By UserNameFieldBy = By.XPath("//input[@data-test='username']");
+        private static readonly By PasswordFieldBy = By.CssSelector("[placeholder='Password']");
+        private static readonly By LoginButtonBy = By.CssSelector(".submit-button.btn_action");
+        private static readonly By ErrorTitleBy = By.TagName("h3");
 
-        public override string GetEndpoint()
+        public IWebElement UserNameField()
         {
-            return _endPoint;
+            return Driver.FindElement(UserNameFieldBy);
         }
+
+        public IWebElement PasswordField()
+        {
+            return Driver.FindElement(PasswordFieldBy);
+        }
+
+        public IWebElement LoginButton()
+        {
+            return Driver.FindElement(LoginButtonBy);
+        }
+
+        public IWebElement ErrorTitle()
+        {
+            return Driver.FindElement(ErrorTitleBy);
+        }
+
 
         [AllureStep]
         public void Login(string userName = "", string password = "")
@@ -34,10 +54,7 @@ namespace HW18.Pages
             PasswordTestRailField().SendKeys(password);
             LoginTestRailButton().Click();
         }
-        protected override bool EvaluateLoadedStatus()
-        {
-            return LoginTestRailButton().Displayed;
-        }
+       
 
         //TestRail
         public IWebElement UserNameTestRailField()
@@ -55,9 +72,6 @@ namespace HW18.Pages
             return Driver.FindElement(LoginTestRailButtonBy);
         }
 
-        protected override void ExecuteLoad()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

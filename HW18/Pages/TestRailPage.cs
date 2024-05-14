@@ -14,6 +14,7 @@ namespace HW18.Pages
         WaitsHelper waitsHelper { get; set; }
         public TestRailPage(IWebDriver driver, bool openPageByUrl = false) : base(driver)
         {
+            Driver = driver;
             waitsHelper = new WaitsHelper(driver);
         }
         private static readonly By TitleBy = By.XPath("//div[@class='top-section text-ppp']");
@@ -27,15 +28,7 @@ namespace HW18.Pages
         private static readonly By AddPrButton = By.XPath("//button[@data-testid='addEditProjectAddButton']");
         private static readonly By messageDeleteProject = By.XPath("//div[@data-testid='contentInnerTestId']//div");
 
-        public override string GetEndpoint()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override bool EvaluateLoadedStatus()
-        {
-            return TestRailTitle().Displayed;
-        }
+        
         public IWebElement TestRailTitle()
         {
             return Driver.FindElement(TitleBy);
@@ -44,11 +37,6 @@ namespace HW18.Pages
         public IWebElement SucceessfulyAddProjectTitle()
         {
             return Driver.FindElement(successfullyAddedProject);
-        }
-
-        protected override void ExecuteLoad()
-        {
-            throw new NotImplementedException();
         }
 
         public IWebElement AddProject()
